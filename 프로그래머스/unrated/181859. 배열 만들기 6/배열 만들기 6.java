@@ -1,25 +1,22 @@
-import java.util.*;
+import java.util.Stack;
 
 class Solution {
-    public int[] solution(int[] arr) {
-        int i=0;
-        ArrayList<Integer> stk = new ArrayList<>();
-        while(i<arr.length){
-            if(stk.isEmpty()){
-                stk.add(arr[i]);
-                i++;
-            }else if(stk.get(stk.size() - 1)==arr[i]){
-               stk.remove(stk.size() - 1);
-               i++;
-           }else if(stk.get(stk.size() - 1)!=arr[i]){
-                stk.add(arr[i]);
-                i++;
+    public Stack<Integer> solution(int[] arr) {
+        int i = 0;
+        Stack<Integer> stk = new Stack<>();
+        
+        for(int a : arr){
+            if(stk.empty()){
+            stk.push(a);
+            } else if(stk.peek()==a){
+                stk.pop();
+            } else{
+                stk.push(a);
             }
         }
-        int[] answer = new int[stk.size()];
-        for (int j = 0; j < stk.size(); j++) {
-            answer[j] = stk.get(j);
+        if(stk.empty()){
+            stk.push(-1);
         }
-        return stk.isEmpty()? new int[]{-1} : answer;
+        return stk;
     }
 }
