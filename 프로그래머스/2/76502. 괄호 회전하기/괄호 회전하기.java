@@ -1,47 +1,40 @@
-import java.util.*;
+import java.util.Stack;
+
 class Solution {
-    public int solution(String s) {
+    public static int solution(String s) {
         int answer = 0;
-        String str=s;
-        
-        for(int i=0;i<s.length();i++){
-            char temp=str.charAt(0);
-            str=str.substring(1)+temp;
-            if(isCorrect(str)){
+        String str = s;
+
+        for(int i=0; i<s.length(); i++) {
+            char ch = str.charAt(0);
+            str = str.substring(1) + ch;
+            if(check(str)) {
                 answer++;
             }
         }
-        
         return answer;
     }
-    
-    public boolean isCorrect (String str){
-        Stack<Character> s = new Stack<>();
-        
-        char[] arr = str.toCharArray();
-        
-        for(char data:arr){
-            if(s.isEmpty()){
-                s.push(data);
+    public static boolean check(String s) {
+        Stack<Character> stack = new Stack<>();
+        for(int i=0; i<s.length(); i++) {
+            if(s.charAt(i) == '(' || s.charAt(i) == '[' || s.charAt(i) == '{') {
+                stack.push(s.charAt(i));
+                continue;
             }
-            else if(s.peek()=='['&&data==']'){
-                s.pop();
+            if(s.charAt(i) == ')' || s.charAt(i) == ']' || s.charAt(i) == '}') {
+                if(stack.isEmpty()) {
+                    return false;
+                }
             }
-            else if(s.peek()=='('&&data==')'){
-                s.pop();
-            }
-            else if(s.peek()=='{'&&data=='}'){
-                s.pop();
-            }
-            else{
-                s.push(data);
+            if(s.charAt(i) == ')' && stack.peek() == '(') {
+                stack.pop();
+            }else if(s.charAt(i) == ']' && stack.peek() == '[') {
+                stack.pop();
+            }else if(s.charAt(i) == '}' && stack.peek() == '{') {
+                stack.pop();
             }
         }
-        
-        if(s.isEmpty()){
-            return true;
-        }
-        
+        if(stack.isEmpty()) return true;
         return false;
     }
 }
