@@ -1,41 +1,40 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 class Solution {
     public static int[] solution(String[] id_list, String[] report, int k) {
         int[] answer = new int[id_list.length];
-        Map<String, Integer> map = new HashMap<>();
-        Map<String, Set<String>> reportedBy = new HashMap<>();
+        Map<String,Integer> map = new HashMap<>();
+        Map<String, Set<String>> reportBy = new HashMap<>();
 
-        // 맵과 reportedBy 초기화
-        for (int i = 0; i < id_list.length; i++) {
-            map.put(id_list[i], i);
-            reportedBy.put(id_list[i], new HashSet<>());
+        //map에 회원 인덱스 넣기
+        for(int i=0; i< id_list.length; i++) {
+            map.put(id_list[i],i);
+            reportBy.put(id_list[i],new HashSet<>());
         }
 
         int[] reportCount = new int[id_list.length];
+        for(String r: report) {
+            String[] reportSplit = r.split(" "); //0:신고한 사람, 1:신고 당한 사람
 
-        // 신고 기록 수집
-        for (String r : report) {
-            String[] reportSplit = r.split(" ");
-            String reporter = reportSplit[0];
-            String targetUser = reportSplit[1];
-
-            // 동일한 신고자에 의해 이미 신고되지 않은 경우
-            if (reportedBy.get(targetUser).add(reporter)) {
-                reportCount[map.get(targetUser)]++;
+            if (reportBy.get(reportSplit[1]).add(reportSplit[0])) {
+                reportCount[map.get(reportSplit[1])]++;
             }
         }
-
-        // 확인 및 답변 업데이트
-        for (int i = 0; i < reportCount.length; i++) {
-            if (reportCount[i] >= k) {
-                Set<String> reporters = reportedBy.get(id_list[i]);
-                for (String reporter : reporters) {
+        
+        for(int i=0; i<reportCount.length; i++) {
+            //기준 횟수 보다 높을 시
+            if(reportCount[i]>=k) {
+                //신고자 배열에 나누어 저장 후 메일 발송횟수 추가
+                Set<String> reporters = reportBy.get(id_list[i]);
+                for(String reporter : reporters) {
                     answer[map.get(reporter)]++;
                 }
             }
         }
-
         return answer;
     }
 }
