@@ -1,50 +1,49 @@
 import java.util.Scanner;
 
-public class Solution {
-	public static String[] arr;
-	public static int max = 0;
-	public static int chance = 0;
-	
-	public static void dfs(int k, int cnt) {
-		if(cnt==chance) {
-			String sb = "";
-			for(String i : arr) {
-				sb+=i;
-			}
-			max = Math.max(max, Integer.parseInt(sb.toString()));
-			return;
-		}
-		
-		for(int i=k;i<arr.length;i++) {
-			for(int j=i+1;j<arr.length;j++) {
-					String temp = arr[i];
-					arr[i] = arr[j];
-					arr[j] = temp;
-					
-					dfs(i,cnt+1);
-					
-					temp = arr[i];
-					arr[i] = arr[j];
-					arr[j] = temp;
-				}
-			}
-		}
-	
-	
-	public static void main(String[] args) {
+class Solution {
+    
+    static int n, max;
+    static String[] arr;
+    
+    public static void main(String args[]) throws Exception{
         Scanner sc = new Scanner(System.in);
         int T = sc.nextInt();
-        for(int test_case = 1 ; test_case <= T ; test_case++) {
+
+        for(int tc = 1; tc <= T; tc++){
+            arr = sc.next().split("");
+            n = sc.nextInt();
             max = 0;
-            String num = sc.next();
-            chance = sc.nextInt();
-            arr = num.split("");
-            if(arr.length < chance) {	// swap 횟수가 자릿수보다 클 때
-            	chance = arr.length;	// 자릿수만큼만 옮겨도 전부 옮길 수 있음
+            
+            if(n > arr.length) {
+                n = arr.length;
             }
-            dfs(0, 0);
-            System.out.println("#" + test_case + " " + max);
+            dfs(0);
+            System.out.println("#"+tc+" "+max);
         }
-        return;
+    }
+    
+    public static void dfs(int cnt) {
+        if(cnt == n) {
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i<arr.length; i++) {
+                sb.append(arr[i]);
+            }
+            if(max < Integer.parseInt(sb.toString())) {
+                max = Integer.parseInt(sb.toString());
+            }
+            return;
+        }
+        
+        for(int i=0; i< arr.length; i++) {
+            for(int j=i+1; j< arr.length; j++) {
+                String a = arr[i];
+                arr[i] = arr[j];
+                arr[j] = a;
+                dfs(cnt + 1);
+                
+                arr[j] = arr[i];
+                arr[i] = a;
+            }
+        }
     }
 }
