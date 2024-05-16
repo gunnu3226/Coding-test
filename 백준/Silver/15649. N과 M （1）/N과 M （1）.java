@@ -1,38 +1,35 @@
 import java.io.*;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
-    static int n,m;
-    static int[] arr;
     static boolean[] check;
-    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static int n, r;
 
     public static void main(String[] args) throws IOException {
 
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
         StringTokenizer st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        arr = new int[m];
+        r = Integer.parseInt(st.nextToken());
         check = new boolean[n+1];
-        dfs(0);
+
+        combination(0,"");
     }
 
-    static void dfs(int depth) {
-        if(depth == m) {
-            for(int i=0; i<m; i++) {
-                System.out.print(arr[i] + " ");
-            }
-            System.out.println();
+    public static void combination(int count, String str) {
+        if(count == r) {
+            System.out.println(str);
             return;
         }
         for(int i=1; i<=n; i++) {
-            if (check[i]) continue;
-            arr[depth] = i;
-            check[i] = true;
-            dfs(depth+1);
-            check[i] = false;
+            if (!check[i]) {
+                check[i] = true;
+                combination(count+1, str + i + " ");
+                check[i] = false;
+            }
         }
     }
 }
