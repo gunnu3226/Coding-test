@@ -1,43 +1,36 @@
-
 import java.util.Arrays;
 import java.util.Scanner;
-import java.io.FileInputStream;
 
 class Solution {
-    static int[] sum;
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
-        int T;
-        T = sc.nextInt();
+        int T = sc.nextInt();
 
-        for (int test_case = 1; test_case <= T; test_case++) {
-            int N = sc.nextInt();
-            int M = sc.nextInt();
-            int K = sc.nextInt();
-            int[] people = new int[N];
-            int pesum = 0;
+        for (int tc = 1; tc <= T; tc++) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int k = sc.nextInt();
 
-            for (int i = 0; i < N; i++) {
-                people[i] = sc.nextInt();
+            boolean check = true;
+            int[] time = new int[n];
+            for(int i=0; i<n; i++) {
+                time[i] = sc.nextInt();
+            }
+            Arrays.sort(time);
+
+            for (int i=1; i<=n; i++) {
+                if((time[i-1]/m)*k - i < 0) {
+                    check = false;
+                    break;
+                }
             }
 
-            if(판독기(people,M,K)){
-                System.out.println("#"+test_case+" Possible");
+            if (check) {
+                System.out.println("#"+tc+" Possible");
             } else {
-                System.out.println("#"+test_case+" Impossible");
+                System.out.println("#"+tc+" Impossible");
             }
         }
     }
-
-    public static boolean 판독기(int[] sum, int M, int K) {
-        Arrays.sort(sum);
-        for(int i=0; i<sum.length; i++) {
-            if(sum[i]/M*K-i<=0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
 }
