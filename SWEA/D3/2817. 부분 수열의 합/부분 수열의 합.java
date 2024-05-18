@@ -1,40 +1,35 @@
-
 import java.util.Scanner;
 
 class Solution {
-    static int N;
-    static int K;
-    static int count;
-    static int[] arr;
-    public static void main(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
-        int T;
-        T = sc.nextInt();
 
-        for (int test_case = 1; test_case <= T; test_case++) {
-            N = sc.nextInt();
-            K = sc.nextInt();
-            arr = new int[N];
-            for(int i = 0; i < N; i++) {
+    static int n, k, count;
+    static int[] arr;
+    public static void main(String args[]) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+
+        for (int tc = 1; tc <= T; tc++) {
+            n = sc.nextInt();
+            k = sc.nextInt();
+            count = 0;
+            arr= new int[n];
+
+            for(int i=0; i<n; i++) {
                 arr[i] = sc.nextInt();
             }
-            count = 0;
-            powerset(0,0);
-
-            System.out.println("#"+test_case+" "+count);
+            dfs(0, 0);
+            System.out.println("#"+tc+" "+count);
         }
     }
 
-    public static void powerset(int index, int sum) {
-        if(index == N) {
-            if(sum == K){
+    public static void dfs(int start, int sum) {
+        if (start >= n || sum >= k) {
+            if (sum == k) {
                 count++;
             }
             return;
-        } else {
-            powerset(index + 1, sum);
-            sum += arr[index];
-            powerset(index + 1, sum);
         }
+        dfs(start + 1, sum + arr[start]);
+        dfs(start + 1, sum);
     }
 }
