@@ -1,34 +1,41 @@
-
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
-import java.io.FileInputStream;
 
 class Solution {
-    public static void main(String args[]) throws Exception {
+
+    static int n;
+    static int[][] arr;
+
+    public static void main(String args[]) {
         Scanner sc = new Scanner(System.in);
+//        int T = sc.nextInt();
 
-        for (int test_case = 1; test_case <= 10; test_case++) {
-            int N = sc.nextInt();
-            int answer = 0;
-            String[][] arr = new String[N][N];
+        for (int tc = 1; tc <= 10; tc++) {
+            n = sc.nextInt();
+            arr = new int[n][n];
 
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < N; j++) {
-                    arr[i][j] = sc.next();
+            for(int i=0; i<n; i++) {
+                for(int j=0; j<n; j++) {
+                    arr[i][j] = sc.nextInt();
                 }
             }
 
-            for (int j = 0; j < N; j++) {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < N; i++) {
-                    if (arr[i][j].equals("1") || arr[i][j].equals("2")) {
-                        sb.append(arr[i][j]);
+            int answer = 0;
+            for(int j=0; j<n; j++) {
+                int state = 0;
+                for(int i=0; i<n; i++) {
+                    if(state == 1 && arr[i][j] == 2) {
+                        answer += 1;
+                        state = arr[i][j];
+                        continue;
+                    }
+                    if (arr[i][j] == 1 || arr[i][j] == 2) {
+                        state = arr[i][j];
                     }
                 }
-                String str = sb.toString();
-                String str2 = str.replaceAll("12", "");
-                answer += (str.length() - str2.length()) / 2;
             }
-            System.out.println("#" + test_case + " " + answer);
+            System.out.println("#"+tc +" "+answer);
         }
     }
 }
