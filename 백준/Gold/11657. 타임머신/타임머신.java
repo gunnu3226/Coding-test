@@ -52,7 +52,7 @@ public class Main {
     public static boolean bellmanFord(long[] times, Edge[] edges) {
         boolean isMinusCycle = false;
 
-        for(int i=0; i< n+1; i++) {
+        for(int i=1; i< n+1; i++) {
             for(int j=0; j < m; j++) {
                 Edge cur = edges[j];
 
